@@ -5,5 +5,7 @@ It is built using the tool-use pattern, which allows it to use external tools to
 
 Here is an example of the interaction with GAIA:
 
+Screenshots:
 
-
+![GAIA Interaction](query_1.png)
+![GAIA Interaction](query_2.png)
