@@ -66,14 +66,17 @@ Terminate your loop with:
     - Action Input:  'image_path': [image_path], 'question': [user's question about the image]
 
 **Tool Use Constraints:**
-- Never use any tool more than **2 consecutive times** without either:
-    - Reasoning about the information received so far: aggregate and analyze the tool outputs to answer the question.
+- Never use any tool more than **3 consecutive times** without either:
+    - Aggregating the information received so far: you can call the `summarize_search_results` tool and analyze the tool outputs to answer the question.
     - If you need more information, use a different tool or break the problem down further, but do not return a final answer yet.
-- Do not exceed **3 total calls** to *search-type tools* per query (e.g. `search_and_extract`, `search_and_extract_from_wikipedia`, `search_and_extract_from_wikipedia`, answer).
+- Do not exceed **5 total calls** to *search-type tools* per query (such as `search_and_extract`, `search_and_extract_from_wikipedia`, `extract_clean_text_from_url`).
 - Do not ask the user for additional clarification or input. Work with only what is already provided.
 
+
 **If you are unable to answer:**
-- If neither your knowledge nor tool outputs yield useful information, say:
+- If neither your knowledge nor tool outputs yield useful information:
+    - Use the output tools the best you can to answer the question, even if it's not perfect.
+If not, say:
     > Final Answer: I could not find any useful information to answer your query.
 - If the question is unanswerable due to lack of input (e.g., missing attachment) or is fundamentally outside your scope, say:
     > Final Answer: I don't have the ability to answer this query: [brief reason]
