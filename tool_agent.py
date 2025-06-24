@@ -11,6 +11,7 @@ from langchain_community.callbacks.manager import get_openai_callback
 from langchain.globals import set_llm_cache, get_llm_cache
 from langchain_community.cache import InMemoryCache
 
+from langgraph.prebuilt import create_react_agent
 
 from basic_agent import print_conversation, generate_final_answer
 
@@ -23,10 +24,16 @@ from langchain.globals import set_debug
 from prompts import REFINED_SYS_PROMPT
 
 from tools import (
+    smart_read_file,
     search_and_extract,
-    load_youtube_transcript,
     search_and_extract_from_wikipedia,
+    aggregate_information,
+    extract_clean_text_from_url,
+    youtube_search_tool,
+    load_youtube_transcript,
+    get_audio_from_youtube,
     image_query_tool,
+    transcribe_audio,
 )
 
 set_debug(False)
@@ -106,12 +113,19 @@ if __name__ == "__main__":
     with get_openai_callback() as cb:
         chatgpt = ChatOpenAI(model="gpt-4o", temperature=0, max_retries=5)
         tools = [
+            smart_read_file,
             search_and_extract,
             search_and_extract_from_wikipedia,
-            image_query_tool,
+            aggregate_information,
+            extract_clean_text_from_url,
+            youtube_search_tool,
             load_youtube_transcript,
+            get_audio_from_youtube,
+            image_query_tool,
+            transcribe_audio,
         ]
         tools_info = '\n\n'.join([f'{tool.name}: {tool.description}: {tool.args}' for tool in tools])
+        print(f"Tools available: {tools_info}\n")
         chatgpt_with_tools = chatgpt.bind_tools(tools)
 
         prompt_template = ChatPromptTemplate.from_messages(
@@ -149,6 +163,7 @@ if __name__ == "__main__":
                         error_message = {'role': 'Rate-limit-hit', 'content': 'Rate limit error encountered again. Skipping this query.'}
                         print_conversation([error_message])
                         continue
+                break
 
 
 

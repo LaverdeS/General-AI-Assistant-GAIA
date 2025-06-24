@@ -1,0 +1,9 @@
+langgraph
+langchain
+langchain-community
+langchain-openai
+langchain-tavily
+requests
+trafilatura
+rich
+python-dotenv
