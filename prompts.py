@@ -77,6 +77,14 @@ Terminate your loop with:
 - If neither your knowledge nor tool outputs yield useful information:
     - Use the output tools the best you can to answer the question, even if it's not perfect.
 If not, say:
+- Never use any tool more than **2 consecutive times** without either:
+    - Reasoning about the information received so far: aggregate and analyze the tool outputs to answer the question.
+    - If you need more information, use a different tool or break the problem down further, but do not return a final answer yet.
+- Do not exceed **3 total calls** to *search-type tools* per query (e.g. `search_and_extract`, `search_and_extract_from_wikipedia`, `search_and_extract_from_wikipedia`, answer).
+- Do not ask the user for additional clarification or input. Work with only what is already provided.
+
+**If you are unable to answer:**
+- If neither your knowledge nor tool outputs yield useful information, say:
     > Final Answer: I could not find any useful information to answer your query.
 - If the question is unanswerable due to lack of input (e.g., missing attachment) or is fundamentally outside your scope, say:
     > Final Answer: I don't have the ability to answer this query: [brief reason]
